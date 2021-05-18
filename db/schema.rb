@@ -10,13 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_17_232909) do
+ActiveRecord::Schema.define(version: 2021_05_18_013649) do
 
-  create_table "connections", force: :cascade do |t|
-    t.integer "user_one"
-    t.integer "user_two"
+  create_table "acquaintances", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "location"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "connections", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "acquaintance_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["acquaintance_id"], name: "index_connections_on_acquaintance_id"
+    t.index ["user_id"], name: "index_connections_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -28,4 +38,6 @@ ActiveRecord::Schema.define(version: 2021_05_17_232909) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "connections", "acquaintances"
+  add_foreign_key "connections", "users"
 end
